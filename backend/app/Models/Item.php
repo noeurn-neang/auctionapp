@@ -10,6 +10,6 @@ class Item extends Model
     use HasFactory;
 
     public function histories() {
-        return $this->hasMany('App\Models\BidHistory')->orderBy('created_at', 'desc');
+        return $this->hasMany('App\Models\BidHistory')->orderBy('bid_amount', 'desc');
     }
 }

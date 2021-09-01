@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Item;
 use App\Models\BidHistory;
 use App\Models\AutoBiddingConfig;
 use App\Utils\DummyUsers;
-use App\Utils\BidUtils;
 
 class ItemController extends Controller
 {
@@ -79,7 +77,7 @@ class ItemController extends Controller
 
         return response()->json([
             'data' => [
-                'last_bid_amount' => $item->last_bid_amount,
+                'last_bid_amount' => $amount,
                 'histories' => $this->prepareBidHistories($item->histories)
             ]
         ]);
@@ -144,28 +142,12 @@ class ItemController extends Controller
      * @return BidHistories
      */
     private function saveBid($item, $amount, $userId) {
-        try {
-            DB::beginTransaction();
-
-            // Save to bid hostory
-            $bid = new BidHistory();
-            $bid->item_id = $item->id;
-            $bid->user_id = $userId;
-            $bid->bid_amount = $amount;
-            $bid->save();
-
-            // Update last bid amount to item
-            $item->last_bid_amount = $amount;
-            $item->save();
-
-            // Auto bidding
-            $bidUtils = new BidUtils($item, $userId);
-            $bidUtils->runAutoBidding();
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-        }
+        // Save to bid hostory
+        $bid = new BidHistory();
+        $bid->item_id = $item->id;
+        $bid->user_id = $userId;
+        $bid->bid_amount = $amount;
+        $bid->save();
     }
 
     /**
