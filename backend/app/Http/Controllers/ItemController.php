@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\BidHistory;
 use App\Models\AutoBiddingConfig;
 use App\Utils\DummyUsers;
+use App\Utils\BidUtils;
 
 class ItemController extends Controller
 {
@@ -156,6 +157,10 @@ class ItemController extends Controller
             // Update last bid amount to item
             $item->last_bid_amount = $amount;
             $item->save();
+
+            // Auto bidding
+            $bidUtils = new BidUtils($item, $userId);
+            $bidUtils->runAutoBidding();
 
             DB::commit();
         } catch (\Exception $e) {
