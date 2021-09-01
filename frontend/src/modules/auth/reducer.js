@@ -1,10 +1,11 @@
 import * as Actions from "./constant";
 
 const initState = {
-    user: {
-        id: 1,
-        name: "Neang"
-    }
+    user: null
+    // {
+    //     id: 1,
+    //     name: "Neang"
+    // }
 }
 
 const authReducer = (state = initState, action) => {
