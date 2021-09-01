@@ -33,11 +33,10 @@ class ItemController extends Controller
         ]);
     }
 
-    public function getHistories(Request $request, Item $item) {
-        $userId = $request->header('user_id');
-
+    public function detail(Request $request, Item $item) {
+        $item['histories'] = $this->prepareBidHistories($item->histories);
         return response()->json([
-            'data' => $this->prepareBidHistories($item->histories)
+            'data' => $item
         ]);
     }
 

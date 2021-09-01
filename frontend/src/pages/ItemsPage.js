@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Button, Form, FormLabel, FormSelect } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import Pagination from '../components/Pagination';
 import { getItemsService } from '../modules/items/service';
 
 const ItemsPage = () => {
+    const history = useHistory();
+
     const [items, setItems] = useState([]);
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
@@ -33,12 +36,12 @@ const ItemsPage = () => {
     }, [page, q, sort])
 
     const goToDetail = item => {
-
+        history.push('/detail/' + item.id)
     }
 
     return (
         <div>
-            <Row style={{ marginBottom: 20, marginTop: 10 }}>
+            <Row className="mb-3 mt-3">
                 <Col>
                     <div style={{
                         display: 'flex',

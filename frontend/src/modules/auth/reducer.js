@@ -1,7 +1,9 @@
 import * as Actions from "./constant";
 
+const reUser = localStorage.getItem("user");
+
 const initState = {
-    user: localStorage.getItem("user")
+    user: reUser ? JSON.parse(reUser) : null
 }
 
 const authReducer = (state = initState, action) => {

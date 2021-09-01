@@ -28,7 +28,7 @@ const TheLayout = ({ clearUser }) => {
         <div>
             <Navbar bg="light" expand="lg">
                 <Container>
-                    <Navbar.Brand href="#home">Auction App</Navbar.Brand>
+                    <Navbar.Brand href="/">Auction App</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
@@ -45,7 +45,7 @@ const TheLayout = ({ clearUser }) => {
                             exact={true} 
                             render={props => <ItemsPage {...props}/>} />
                         <Route 
-                            path="/detail" 
+                            path="/detail/:id" 
                             exact={true}
                             render={props => <ItemDetailPage {...props}/>} />
                     </Switch>
