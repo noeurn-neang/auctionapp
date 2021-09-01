@@ -25,7 +25,7 @@ class ItemController extends Controller
         if($sort != null) {
             $items = $items->orderBy('price', $sort)->paginate(10);
         } else {
-            $items = $item->paginate(10);
+            $items = $items->paginate(10);
         }
 
         return response()->json([

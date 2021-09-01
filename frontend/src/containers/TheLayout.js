@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import {
     Switch,
-    Route,
-    Redirect
+    Route
   } from "react-router-dom";
+import { clearUserAction } from '../modules/auth/action';
 
 const loading = (
     <div className="pt-3 text-center">
@@ -16,7 +17,13 @@ const loading = (
 const ItemsPage = React.lazy(() => import('../pages/ItemsPage'));
 const ItemDetailPage = React.lazy(() => import('../pages/ItemDetailPage'));
 
-const TheLayout = () => {
+const TheLayout = ({ clearUser }) => {
+
+    const onLogout = () => {
+        localStorage.clear();
+        clearUser();
+    }
+
     return (
         <div>
             <Navbar bg="light" expand="lg">
@@ -25,8 +32,7 @@ const TheLayout = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="#home">Home</Nav.Link>
-                            <Nav.Link href="#link">Link</Nav.Link>
+                            <Nav.Link href="#" onClick={onLogout}>Logout</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -49,4 +55,8 @@ const TheLayout = () => {
     )
 }
 
-export default TheLayout;
+const mapDispatchToProps = {
+    clearUser: clearUserAction
+}
+
+export default connect(null, mapDispatchToProps)(TheLayout);

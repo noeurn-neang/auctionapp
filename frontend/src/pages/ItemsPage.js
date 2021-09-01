@@ -1,41 +1,68 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Button, Form, FormLabel, FormSelect } from 'react-bootstrap';
+import Pagination from '../components/Pagination';
+import { getItemsService } from '../modules/items/service';
 
 const ItemsPage = () => {
-    const items = [];
-    for (let i = 0; i < 10; i++) {
-        let ind = i + 1;
-        items.push({
-            id: ind,
-            name: 'Product ' + ind,
-            description: 'Hello wowo I am the boos' + ind,
-            image_urle: 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg',
-            price: 100.00,
-            last_bid_amount: 140.00,
-            close_date: '2020-08-01 10:00 PM',
-            max_bid_amount: 300.00,
-        })
+    const [items, setItems] = useState([]);
+    const [total, setTotal] = useState(0);
+    const [page, setPage] = useState(1);
+    const [q, setQ] = useState("");
+    const [sort, setSort] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const requestItems = () => {
+            setLoading(true)
+            getItemsService({
+                q,
+                page,
+                sort
+            }).then(({data}) => {
+                setLoading(false);
+                setItems(data.data);
+                setTotal(data.total);
+            }).catch(err => {
+                setLoading(false);
+                console.error(err)
+            })
+        }
+
+        requestItems();
+
+    }, [page, q, sort])
+
+    const goToDetail = item => {
+
     }
 
     return (
         <div>
-            <Row style={{marginBottom: 20, marginTop: 10}}>
+            <Row style={{ marginBottom: 20, marginTop: 10 }}>
                 <Col>
                     <div style={{
                         display: 'flex',
                         flexDirection: 'row',
                         justifyContent: 'space-between'
                     }}>
-                        <div style={{display: 'flex', flexDirection: 'row'}}>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <Form.Control
-                                style={{width: '30rem', marginRight: 10}}
+                                value={q}
+                                onChange={e => {
+                                    setQ(e.target.value)
+                                }}
+                                style={{ width: '30rem', marginRight: 10 }}
                                 placeholder="Enter name, description to search"
                             />
-                            <Button>Search</Button>
                         </div>
-                        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                            <FormLabel style={{marginBottom: 0, marginRight: 10}}>Sort&nbsp;by&nbsp;price:</FormLabel>
-                            <FormSelect>
+                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                            <FormLabel style={{ marginBottom: 0, marginRight: 10 }}>Sort&nbsp;by&nbsp;price:</FormLabel>
+                            <FormSelect
+                                value={sort}
+                                onChange={e => {
+                                    setSort(e.target.value)
+                                }}
+                            >
                                 <option>None</option>
                                 <option>ASC</option>
                                 <option>DESC</option>
@@ -44,21 +71,35 @@ const ItemsPage = () => {
                     </div>
                 </Col>
             </Row>
+            <Row>
+                <Col><center><FormLabel className="m-2">{loading ? "Loading..." : ""}</FormLabel></center></Col>
+            </Row>
             <Row className="gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
                 {items.map(it => (
                     <Col className="mb-5" key={it.id}>
                         <Card className="h-100">
-                            <Card.Img variant="top" src={it.image_urle} />
+                            <Card.Img variant="top" src={it.image_url} />
                             <Card.Body>
                                 <Card.Title>{it.name}</Card.Title>
                                 <FormLabel className="item-price">$ {it.price}</FormLabel>
                                 <Card.Text>{it.description}</Card.Text>
-                                <Button variant="primary">Bid Now</Button>
+                                <Button variant="primary" onClick={() => {
+                                    goToDetail(it);
+                                }}>Bid Now</Button>
                             </Card.Body>
                         </Card>
                     </Col>
                 ))}
             </Row>
+
+            <Pagination 
+                active={page} 
+                perPage={10}
+                total={total}
+                handleClick={p => {
+                    setPage(p)
+                }}
+            />
         </div>
     )
 }

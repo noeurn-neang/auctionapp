@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, Col, Row, Button, Form } from 'react-bootstrap';
 import { setUserAction } from '../modules/auth/action';
 import { loginService } from '../modules/auth/service';
+import { connect } from 'react-redux';
 
 const LoginPage = ({ setUser }) => {
 
@@ -13,6 +14,7 @@ const LoginPage = ({ setUser }) => {
     const onSubmit = e => {
         e.preventDefault();
 
+        setError("");
         setLoading(true);
         loginService({
             name,
@@ -21,6 +23,9 @@ const LoginPage = ({ setUser }) => {
             setLoading(false);
             if(res.data) {
                 setUser(setUser)
+
+                // save user to local storage
+                localStorage.setItem('user', JSON.stringify(res.data))
             } else {
                 setError(res.msg)
             }
@@ -64,6 +69,9 @@ const LoginPage = ({ setUser }) => {
                                     }}
                                     required
                                 />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Text className="text-danger">{error}</Form.Text>
                             </Form.Group>
                             <div className="d-grid gap-2">
                                 <Button type="submit" variant="primary" disabled={loading}>

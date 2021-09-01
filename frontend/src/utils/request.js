@@ -11,9 +11,9 @@ instance.interceptors.request.use(
       "Accept": "application/json"
     };
 
-    const userId = localStorage.getItem("user_id")
-    if (userId) {
-      config.headers.user_id = userId;
+    const user = localStorage.getItem("user")
+    if (user) {
+      config.headers.user_id = JSON.parse(user).id;
     }
 
     return config;

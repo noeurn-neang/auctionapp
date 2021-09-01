@@ -1,11 +1,7 @@
 import * as Actions from "./constant";
 
 const initState = {
-    user: null
-    // {
-    //     id: 1,
-    //     name: "Neang"
-    // }
+    user: localStorage.getItem("user")
 }
 
 const authReducer = (state = initState, action) => {
@@ -16,6 +12,10 @@ const authReducer = (state = initState, action) => {
             return {
                 ...state,
                 user: payload
+            };
+        case Actions.CLEAR_USER:
+            return {
+                user: null
             };
         default: 
             return state;
