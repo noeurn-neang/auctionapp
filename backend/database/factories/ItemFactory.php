@@ -26,7 +26,7 @@ class ItemFactory extends Factory
             'name' => $this->faker->unique()->name(),
             'description' => $this->faker->unique()->text(),
             'image_url' => 'https://via.placeholder.com/300.png/09f/fff',
-            'price' => 100,
+            'price' => $this->faker->numberBetween(100, 300),
             'last_bid_amount' => 0,
             'closing_date' => now()->addDays(2)
         ];
