@@ -12,4 +12,8 @@ class Item extends Model
     public function histories() {
         return $this->hasMany('App\Models\BidHistory')->orderBy('bid_amount', 'desc');
     }
+
+    public function autoBiddingConfigs() {
+        return $this->hasMany('App\Models\AutoBiddingConfig');
+    }
 }

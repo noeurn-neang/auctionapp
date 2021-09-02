@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 
 const LoginPage = ({ setUser }) => {
 
-    const [name, setName] = useState("user1");
-    const [password, setPassword] = useState("123");
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -72,6 +72,11 @@ const LoginPage = ({ setUser }) => {
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Text className="text-danger">{error}</Form.Text>
+                                <Form.Label className="mt-3">Test User</Form.Label>
+                                <br />
+                                <Form.Label>1. user1 / 123</Form.Label>
+                                <br />
+                                <Form.Label>2. user1 / 123</Form.Label>
                             </Form.Group>
                             <div className="d-grid gap-2">
                                 <Button type="submit" variant="primary" disabled={loading}>

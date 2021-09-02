@@ -34,7 +34,9 @@ class ItemController extends Controller
     }
 
     public function detail(Request $request, Item $item) {
+        $userId = $request->header('user_id');
         $item['histories'] = $this->prepareBidHistories($item->histories);
+        $item['autoBiddingConfig'] = $item->autoBiddingConfigs()->where('user_id', $userId)->first();
         return response()->json([
             'data' => $item
         ]);
