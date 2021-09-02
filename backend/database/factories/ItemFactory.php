@@ -28,7 +28,6 @@ class ItemFactory extends Factory
             'image_url' => 'https://via.placeholder.com/300.png/09f/fff',
             'price' => 100,
             'last_bid_amount' => 0,
-            'max_bid_amount' => 200,
             'closing_date' => now()->addDays(2)
         ];
     }

@@ -20,7 +20,6 @@ class CreateItemsTable extends Migration
             $table->string('image_url');
             $table->decimal('price', 5, 2);
             $table->decimal('last_bid_amount', 5, 2);
-            $table->decimal('max_bid_amount', 5, 2);
             $table->dateTime('closing_date');
             $table->timestamps();
         });
