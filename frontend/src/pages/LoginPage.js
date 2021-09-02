@@ -72,6 +72,7 @@ const LoginPage = ({ setUser }) => {
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Text className="text-danger">{error}</Form.Text>
+                                <br />
                                 <Form.Label className="mt-3">Test User</Form.Label>
                                 <br />
                                 <Form.Label>1. user1 / 123</Form.Label>
